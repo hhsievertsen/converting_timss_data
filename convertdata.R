@@ -4,7 +4,7 @@ library(data.table)
 library(arrow)
 
 directory <- "/Users/hhs/Dropbox/My Mac (Hanss-MacBook-Air.local)/Desktop/Part 1"
-output_directory <- "/path/to/intermediate_chunks"
+output_directory <-  "/Users/hhs/Dropbox/My Mac (Hanss-MacBook-Air.local)/Desktop/"
 final_output <- "timss_4_2019.parquet"
 
 # Drop empty columns
@@ -31,7 +31,7 @@ for (i in seq_along(file_list)) {
 # Combine all intermediate Parquet files into one
 chunk_files <- list.files(output_directory, pattern = "\\.parquet$", full.names = TRUE)
 combined_data <- lapply(chunk_files, arrow::read_parquet) %>%
-  data.table::rbindlist()
+  data.table::rbindlist(fill=TRUE)
 arrow::write_parquet(combined_data, final_output)
 
 # Clean up intermediate files
